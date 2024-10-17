@@ -1,16 +1,24 @@
 ## Background Inpainting
-This project utilizes Grounding DINO, SAM (Segment Anything), and LAMA Inpaint to achieve seamless background replacement while preserving the integrity of the original elements.
-<p align="center">
-<img src="assets/image.jpeg" width="200" />
-<img src="assets/mask.png" width="200" />
-<img src="assets/final_image.png" width="200" />
-</p>
+This project utilizes Stable Diffusion XL, ControlNet, Grounding DINO, SAM (Segment Anything), and LAMA Inpaint to achieve seamless background replacement while preserving the integrity of the original elements.
+
+<div align="center">
+<img src="assets/image.jpeg" width="20%" />
+<img src="assets/mask.png" width="20%" />
+<img src="assets/final_image.png" width="20%" />
+</div>
 
 <img src="assets/grid_sample.png"/>
 
+Specifically, GroundingDINO is used to identify the object, which are then segmented with SAM. The background is inpainted using ControlNet and Stable Diffusion XL, and the foreground is removed via LAMA inpainting. At last, the identified object are copied and pasted into the newly generated background.
+
 ## Installation
 
-Install the dependency
+Before installing diffusers, make sure that `PyTorch` and `Accelerate` are already installed.
+```bash
+pip install diffusers["torch"] transformers
+```
+
+Install the SAM library and LAMA inpaint dependencies.
 ```bash
 pip install -r requirements.txt
 ```
@@ -28,7 +36,7 @@ You can download the pre-trained model weights from the following link.
 
 
 ## Usage
-
+Run the following command, and all generated images will be saved in the `output_dir`.
 ```bash
 python inference.py \
     --input_img ./assets/image.jpeg \
