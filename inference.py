@@ -141,6 +141,8 @@ if __name__ == "__main__":
         torch_dtype=torch.float16,
         use_safetensors=True
     )
+    pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl.bin")
+    pipe.set_ip_adapter_scale(0.3)
     pipe.enable_model_cpu_offload()
 
 
@@ -149,6 +151,7 @@ if __name__ == "__main__":
         negative_prompt=args.negative_prompt,
         image=canny_image,
         controlnet_conditioning_scale=0.5,
+        ip_adapter_image = white_image
     ).images[0]
     sample_image = sample_image.resize((W, H))
     save_img(sample_image,  out_dir / "sample_image.png")
