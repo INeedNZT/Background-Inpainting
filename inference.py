@@ -70,6 +70,14 @@ def setup_args(parser):
         "--lama_ckpt", type=str, required=True,
         help="The path to the LAMA inpaint checkpoint",
     )
+    parser.add_argument(
+        "--ip_adapter_scale", type=float, default=0.3,
+        help="The scaling factor for the IP Adapter, which controls its influence on the generated image",
+    )
+    parser.add_argument(
+        "--controlnet_conditioning_scale", type=float, default=0.5,
+        help="The conditioning scale for ControlNet to influence the image generation",
+    )
     
 
 if __name__ == "__main__":
@@ -142,7 +150,7 @@ if __name__ == "__main__":
         use_safetensors=True
     )
     pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl.bin")
-    pipe.set_ip_adapter_scale(0.3)
+    pipe.set_ip_adapter_scale(args.ip_adapter_scale)
     pipe.enable_model_cpu_offload()
 
 
@@ -150,7 +158,7 @@ if __name__ == "__main__":
         args.background_prompt,
         negative_prompt=args.negative_prompt,
         image=canny_image,
-        controlnet_conditioning_scale=0.5,
+        controlnet_conditioning_scale=args.controlnet_conditioning_scale,
         ip_adapter_image = white_image
     ).images[0]
     sample_image = sample_image.resize((W, H))

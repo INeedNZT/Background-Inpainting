@@ -36,7 +36,7 @@ You can download the pre-trained model weights from the following link.
 
 
 ## Usage
-Run the following command, and all generated images will be saved in the `output_dir`.
+Run the following command, and all generated images will be saved in the `output_dir`. The `extract_prompt` parameter refers to the elements you want to extract from the `input_img`.
 ```bash
 python inference.py \
     --input_img ./assets/image.jpeg \
@@ -46,7 +46,9 @@ python inference.py \
     --negative_prompt "low quality, bad quality, sketches" \
     --ground_ckpt ./pretrained_models/groundingdino_swint_ogc.pth \
     --sam_ckpt ./pretrained_models/sam_vit_h_4b8939.pth \
-    --lama_ckpt ./pretrained_models/big-lama
+    --lama_ckpt ./pretrained_models/big-lama \
+    --ip_adapter_scale 0.4 \
+    --controlnet_conditioning_scale 0.5
 ```
 
 ## Acknowledgement
